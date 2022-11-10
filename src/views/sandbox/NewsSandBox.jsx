@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import SideMenu from '../../components/sandbox/SideMenu'
 import TopHeader from '../../components/sandbox/TopHeader'
 import Home from './home/Home';
