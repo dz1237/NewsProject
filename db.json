@@ -1,6 +1,15 @@
 {
   "users": [
     {
+      "username": "admin",
+      "password": "123",
+      "roleState": true,
+      "default": true,
+      "region": "全世界",
+      "roleId": 1,
+      "id": 1
+    },
+    {
       "username": "铁锤",
       "password": "123",
       "roleState": true,
