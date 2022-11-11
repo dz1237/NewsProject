@@ -7,6 +7,7 @@ export default function RoleList() {
   const [dataSource, setdataSource] = useState([]);
   const [rightList, setrightList] = useState([]);
   const [currentRights, setcurrentRights] = useState([]);
+  const [currentId, setcurrentId] = useState(0);
   const [isModalOpen, setisModalOpen] = useState(false);
   const { confirm } = Modal;
   const colums = [
@@ -67,16 +68,30 @@ export default function RoleList() {
   }, [])
   const handleOk = () => {
     setisModalOpen(false);
+    //同步数据
+    setdataSource(dataSource.map(item=>{
+      if(item.id===currentId){
+        return {
+          ...item,
+          rights:currentRights
+        }
+      }
+      return item;
+    }))
+    axios.patch(`http://localhost:8000/roles/${currentId}`,{
+      rights:currentRights
+    })
   }
   const handleCancel = () => {
     setisModalOpen(!isModalOpen);
   }
   const handleIsModalOpen = (item) => {
     setisModalOpen(true);
-    setcurrentRights(item.rights)
+    setcurrentRights(item.rights);
+    setcurrentId(item.id)
   }
   const onCheck = (checkedKeys) => {
-    setcurrentRights(checkedKeys)
+    setcurrentRights(checkedKeys.checked)
   }
   return (
     <div>
