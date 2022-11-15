@@ -70,7 +70,7 @@ export default function UserList() {
       title: '用户状态',
       dataIndex: 'roleState',
       render: (roleState, item) => {
-        return <Switch checked={roleState} disabled={item.default}></Switch>
+        return <Switch checked={roleState} onChange={()=>{handleChangeSwitch(item)}} disabled={item.default}></Switch>
       }
     },
     {
@@ -81,11 +81,17 @@ export default function UserList() {
             confirmMethod(item)
           }} />
           <Button type="primary" shape="circle" disabled={item.default} icon={<EditOutlined />} />
-
         </div>
       }
     },
   ];
+  //处理用户状态的Switch开关
+  const handleChangeSwitch = (item) => {
+    console.log(item);
+    item.roleState = !item.roleState
+    setdataSource([...dataSource])
+    axios.patch(`http://localhost:8000/users/${item.id}`,{roleState:item.roleState})
+  }
   const confirmMethod = (item) => {
     confirm({
       title: '您确定删除吗？',
