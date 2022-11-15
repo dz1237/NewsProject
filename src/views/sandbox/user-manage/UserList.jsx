@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { Table, Tag, Button, Modal, Switch, Form, Input, Select } from 'antd';
+import React, { useState, useEffect, useRef } from 'react'
+import { Table,  Button, Modal, Switch } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import  UserForm from "../../../components/user-manage/UserForm"
 import style from '../right-manage/RightList.module.css';
 export default function UserList() {
-  const {Option} = Select;
   const [dataSource, setdataSource] = useState();
   const [isOpen, setisOpen] = useState(false);//新增用户模态框显示状态哦
   const [roleList, setroleList] = useState([]);
   const [regionList, setregionList] = useState([]);
   const { confirm } = Modal;
+  const addFrom = useRef(null)
   useEffect(() => {
     axios.get("http://localhost:8000/users?_expand=role").then(res => {
       const list = res.data;
@@ -96,17 +97,10 @@ export default function UserList() {
       },
     });
   }
+  // 删除
   const deletedMethod = (item) => {
-    if (item.grade === 1) {
-      setdataSource(dataSource.filter(data => data.id !== item.id));
-      axios.delete(`http://localhost:8000/rights/${item.id}`);
-    } else {
-      console.log(item.rightId);
-      let list = dataSource.filter(data => data.id === item.rightId);
-      list[0].children = list[0].children.filter(data => data.id !== item.id);
-      setdataSource([...dataSource])
-      axios.delete(`http://localhost:8000/children/${item.id}`);
-    }
+    setdataSource(dataSource.filter(data => data.id !== item.id))
+    axios.delete(`http://localhost:8000/users/${item.id}`)
   }
   const onCancel = () => {
     setisOpen(false)
@@ -114,11 +108,21 @@ export default function UserList() {
   const handleNewUser = () => {
     setisOpen(true)
   }
-  const closeNewUser = () => {
-
-    setisOpen(false);//关闭新增用户弹窗
-    console.log("加上了");
-
+  const addFromOK = () => {
+    addFrom.current.validateFields().then(value=>{
+      setisOpen(false);
+      addFrom.current.resetFields()
+      axios.post( `http://localhost:8000/users`,{
+        ...value,
+        "roleState":true, 
+        "default":false
+      }).then(res=>{
+        // console.log(res.data);
+        setdataSource([...dataSource,{...res.data,role:roleList.filter(item=>item.id===value.roleId)[0]}])
+      })
+    }).catch(err=>{
+      console.log(err);
+    })
   }
   return (
     <div>
@@ -136,72 +140,13 @@ export default function UserList() {
         okText="确定添加"
         cancelText="取消"
         onCancel={onCancel}
-        onOk={closeNewUser}
+        onOk={addFromOK}
       >
-        <Form
-          layout="vertical"
-        >
-          <Form.Item
-            name="username"
-            label="用户名"
-            rules={[
-              {
-                required: true,
-                message: '请输入用户名！',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="密码"
-            rules={[
-              {
-                required: true,
-                message: '请输入密码！',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="region"
-            label="区域"
-            rules={[
-              {
-                required: true,
-                message: '请输入区域！',
-              },
-            ]}
-          >
-            <Select>
-              {
-                regionList.map(item =>
-                  <Option value={item.value} key={item.id}>{item.title}</Option>
-                  )
-              }
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="roleId"
-            label="角色"
-            rules={[
-              {
-                required: true,
-                message: '请输入区域！',
-              },
-            ]}
-          >
-            <Select>
-              {
-                roleList.map(item =>
-                  <Option value={item.id} key={item.id}>{item.roleName}</Option>
-                  )
-              }
-            </Select>
-          </Form.Item>
-        </Form>
+       <UserForm  
+        regionList={ regionList }
+        roleList={ roleList }
+        ref= { addFrom }
+       ></UserForm>
       </Modal>
     </div>
   )
