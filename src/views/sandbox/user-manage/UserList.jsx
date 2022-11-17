@@ -3,7 +3,7 @@ import { Table,  Button, Modal, Switch } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import  UserForm from "../../../components/user-manage/UserForm"
-import style from '../right-manage/RightList.module.css';
+// import style from '../right-manage/RightList.module.css';
 export default function UserList() {
   const [dataSource, setdataSource] = useState();
   const [isOpen, setisOpen] = useState(false);//新增用户模态框显示状态哦
@@ -37,20 +37,20 @@ export default function UserList() {
     })
   }, []);
   //页面配置项的开关
-  const content = (item) => {
-    return (<div className={style.content}>
-      <Switch checked={item.pagepermisson} onChange={() => switchMethod(item)} />
-    </div>)
-  }
-  const switchMethod = (item) => {
-    item.pagepermisson = item.pagepermisson === 1 ? 0 : 1;
-    setdataSource([...dataSource]);
-    item.grade === 1 ? axios.patch(`http://localhost:8000/rights/${item.id}`, {
-      pagepermisson: item.pagepermisson
-    }) : axios.patch(`http://localhost:8000/children/${item.id}`, {
-      pagepermisson: item.pagepermisson
-    })
-  }
+  // const content = (item) => {
+  //   return (<div className={style.content}>
+  //     <Switch checked={item.pagepermisson} onChange={() => switchMethod(item)} />
+  //   </div>)
+  // }
+  // const switchMethod = (item) => {
+  //   item.pagepermisson = item.pagepermisson === 1 ? 0 : 1;
+  //   setdataSource([...dataSource]);
+  //   item.grade === 1 ? axios.patch(`http://localhost:8000/rights/${item.id}`, {
+  //     pagepermisson: item.pagepermisson
+  //   }) : axios.patch(`http://localhost:8000/children/${item.id}`, {
+  //     pagepermisson: item.pagepermisson
+  //   })
+  // }
   const columns = [
     {
       title: '区域',

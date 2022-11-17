@@ -1,10 +1,23 @@
 import React from 'react';
-import { Form, Checkbox, Input, Button } from 'antd';
+import { Form,  Input, Button, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 import style from './Login.module.css'
 export default function Login() {
+  const navigate = useNavigate()
   const onFinish = (values) => {
-    console.log(values);
+    axios.get(`http://localhost:8000/users?username=${values.username}&password=${values.password}&roleState=true&_expand=role`).then(
+      res=>{
+        console.log(res.data);
+        if(res.data.length === 0) {
+          message.error("账户名或密码不正确")
+        }else{
+          localStorage.setItem("token", JSON.stringify(res.data[0]));
+          navigate("/")
+        }
+      }
+    )
   }
   return (
     <div style={{ background: 'rgba(35,39,65)', height: "100vh" }}>
