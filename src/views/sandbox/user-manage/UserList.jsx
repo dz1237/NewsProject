@@ -10,7 +10,11 @@ export default function UserList() {
   const [roleList, setroleList] = useState([]);
   const [regionList, setregionList] = useState([]);
   const { confirm } = Modal;
-  const addFrom = useRef(null)
+  const addFrom = useRef(null);
+  const [isUpdateOpen, setisUpdateOpen] = useState(false);
+  const updateFrom = useRef(null);
+  const [isUpdateDisabled, setisUpdateDisabled] = useState(false);
+  const [current, setcurrent] = useState(null);
   useEffect(() => {
     axios.get("http://localhost:8000/users?_expand=role").then(res => {
       const list = res.data;
@@ -51,6 +55,25 @@ export default function UserList() {
     {
       title: '区域',
       dataIndex: 'region',
+      filters:[
+        ...regionList.map(item=>({
+          
+          text:item.title,
+          value:item.value,
+        })),
+        {
+          text:"全球",
+          value:"全球"
+        }
+      ],
+      onFilter:(value,item)=>{
+        
+        if(value === "全球"){
+          return  item.region===""
+        }else{
+          return item.region===value
+        }
+      },
       render: (region) => {
         return <b>{region === "" ? "全球" : region}</b>
       }
@@ -80,11 +103,29 @@ export default function UserList() {
           <Button type="danger" shape="circle" disabled={item.default} icon={<DeleteOutlined />} onClick={() => {
             confirmMethod(item)
           }} />
-          <Button type="primary" shape="circle" disabled={item.default} icon={<EditOutlined />} />
+          <Button type="primary" shape="circle" disabled={item.default} icon={<EditOutlined />} onClick={()=>{handleUpdate(item)}} />
         </div>
       }
     },
   ];
+  //处理操作中的编辑
+  // 问题：会爆出cannot read setFieldsValue
+//   react中状态更新不一定是同步的，导致对话框模块还没显示，也就是表单还没挂载就调用了setFieldsValue，所以报错
+// 解决：使用async/await和setTimeout。
+  const handleUpdate = async(item) => {
+    // setTimeout(() => {
+      await setisUpdateOpen(true);
+      if(item.roleId === 1){
+        setisUpdateDisabled(true)
+      }
+      else{
+        setisUpdateDisabled(false)
+      }
+      // console.log( updateFrom);
+      updateFrom.current.setFieldsValue(item);
+      setcurrent(item)
+    // },0)
+  }
   //处理用户状态的Switch开关
   const handleChangeSwitch = (item) => {
     console.log(item);
@@ -111,6 +152,10 @@ export default function UserList() {
   const onCancel = () => {
     setisOpen(false)
   }
+  const onUpdateCancel = () => {
+    setisUpdateOpen(false);
+    setisUpdateDisabled(!isUpdateDisabled);
+  }
   const handleNewUser = () => {
     setisOpen(true)
   }
@@ -129,6 +174,27 @@ export default function UserList() {
     }).catch(err=>{
       console.log(err);
     })
+  }
+  //确认更新
+  const addUpdateFromOK = () => {
+    
+    updateFrom.current.validateFields().then(value=>{
+      setisOpen(false);
+      setdataSource(dataSource.map(item=>{
+        if(item.id === current.id){
+          return {
+            ...item,
+            ...value,
+            role:roleList.filter(item=>item.id===value.roleId)[0]
+          }
+        }
+        return item;
+      }))
+      setisUpdateOpen(false);
+      setisUpdateDisabled(!isUpdateDisabled);
+      axios.patch(`http://localhost:8000/users/${current.id}`,value)
+    })
+    
   }
   return (
     <div>
@@ -152,6 +218,21 @@ export default function UserList() {
         regionList={ regionList }
         roleList={ roleList }
         ref= { addFrom }
+       ></UserForm>
+      </Modal>
+      <Modal
+        open={isUpdateOpen}
+        title="更新用户"
+        okText="确定更新"
+        cancelText="取消"
+        onCancel={onUpdateCancel}
+        onOk={addUpdateFromOK}
+      >
+       <UserForm  
+        regionList={ regionList }
+        roleList={ roleList }
+        ref= { updateFrom }
+        isUpdateDisabled={ isUpdateDisabled }
        ></UserForm>
       </Modal>
     </div>

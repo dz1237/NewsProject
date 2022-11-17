@@ -1,4 +1,5 @@
 import React,{ useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Layout, Dropdown, Menu, Space, Avatar } from 'antd';
 import {
   MenuFoldOutlined,
@@ -8,6 +9,7 @@ import {
 export default function TopHeader() {
   const [collapsed, setCollapsed] = useState(false);
   const { Header } = Layout;
+  const navigate = useNavigate();
   //更改图标
   const changeCollapsed = () => {
     setCollapsed(!collapsed)
@@ -26,6 +28,10 @@ export default function TopHeader() {
               key: '2',
               label: '退出登录',
               danger: true,
+              onClick: function(){
+                localStorage.removeItem("token");
+                navigate("/login");
+              }
             }
           ]}
         />
