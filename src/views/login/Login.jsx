@@ -7,7 +7,7 @@ import style from './Login.module.css'
 export default function Login() {
   const navigate = useNavigate()
   const onFinish = (values) => {
-    axios.get(`/users?username=${values.username}&password=${values.password}&roleState=true&_expand=role`).then(
+    axios.get(`http://localhost:8000/users?username=${values.username}&password=${values.password}&roleState=true&_expand=role`).then(
       res=>{
         console.log(res.data);
         if(res.data.length === 0) {

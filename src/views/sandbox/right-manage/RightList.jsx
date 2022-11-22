@@ -7,7 +7,7 @@ export default function RightList() {
   const [dataSource, setdataSource] = useState();
   const { confirm } = Modal;
   useEffect(() => {
-    axios.get("/rights?_embed=children").then(res => {
+    axios.get("http://localhost:8000/rights?_embed=children").then(res => {
       const list = res.data;
       list.map((item) =>
         item.children.length === 0 ? item.children = "" : item
@@ -25,18 +25,18 @@ export default function RightList() {
     item.pagepermisson = item.pagepermisson=== 1 ? 0 : 1;
     setdataSource([...dataSource]);
     // if(item.grade === 1){
-    //   axios.patch(`/rights/${item.id}`,{
+    //   axios.patch(`http://localhost:8000/rights/${item.id}`,{
     //     pagepermisson:item.pagepermisson
     //   })
     // }
     // else{
-    //   axios.patch(`/children/${item.id}`,{
+    //   axios.patch(`http://localhost:8000/children/${item.id}`,{
     //     pagepermisson:item.pagepermisson
     //   })
     // }
-    item.grade === 1 ? axios.patch(`/rights/${item.id}`,{
+    item.grade === 1 ? axios.patch(`http://localhost:8000/rights/${item.id}`,{
       pagepermisson:item.pagepermisson
-    }) : axios.patch(`/children/${item.id}`,{
+    }) : axios.patch(`http://localhost:8000/children/${item.id}`,{
       pagepermisson:item.pagepermisson
     })
   }
@@ -92,7 +92,7 @@ export default function RightList() {
   const deletedMethod = (item) => {
     // console.log(111);
     // setdataSource(dataSource.filter(data => data.id !== item.id));
-    // axios.delete(`/rights/${item.id}`);   
+    // axios.delete(`http://localhost:8000/rights/${item.id}`);   
     //删除一级
 
 
@@ -100,13 +100,13 @@ export default function RightList() {
     //删除
     if (item.grade === 1) {
       setdataSource(dataSource.filter(data => data.id !== item.id));
-      axios.delete(`/rights/${item.id}`);
+      axios.delete(`http://localhost:8000/rights/${item.id}`);
     } else {
       console.log(item.rightId);
       let list = dataSource.filter(data => data.id === item.rightId);
       list[0].children = list[0].children.filter(data => data.id !== item.id);
       setdataSource([...dataSource])
-      axios.delete(`/children/${item.id}`);
+      axios.delete(`http://localhost:8000/children/${item.id}`);
     }
 
 

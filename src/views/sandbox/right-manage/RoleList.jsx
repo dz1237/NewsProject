@@ -52,17 +52,17 @@ export default function RoleList() {
   }
   const deletedMethod = (item) => {
     setdataSource(dataSource.filter(data => data.id !== item.id));
-    axios.delete(`/roles/${item.id}`);
+    axios.delete(`http://localhost:8000/roles/${item.id}`);
   }
   //角色列表数据
   useEffect(() => {
-    axios.get("/roles").then(res => {
+    axios.get("http://localhost:8000/roles").then(res => {
       setdataSource(res.data)
     })
   }, [])
   //请求角色列表中角色名称对应的权限数据
   useEffect(() => {
-    axios.get("/rights?_embed=children").then(res => {
+    axios.get("http://localhost:8000/rights?_embed=children").then(res => {
       setrightList(res.data)
     })
   }, [])
@@ -78,7 +78,7 @@ export default function RoleList() {
       }
       return item;
     }))
-    axios.patch(`/roles/${currentId}`,{
+    axios.patch(`http://localhost:8000/roles/${currentId}`,{
       rights:currentRights
     })
   }
