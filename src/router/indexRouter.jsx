@@ -7,7 +7,9 @@ export default function IndexRouter() {
         <HashRouter>
             <Routes>
                 <Route path='/login' element={<Login />} />
-                <Route path='*' element={<NewsSandBox/>} />
+                <Route path='*' element={
+                    localStorage.getItem("token")? <NewsSandBox/> : <Navigate to='/login' />
+                } />
                 {/* <Route path='/' element={<Navigate to="/" />} /> */}
                 {/* 重定向 */}
             </Routes>

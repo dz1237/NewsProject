@@ -2,7 +2,7 @@ import React, { forwardRef, useState, useEffect } from 'react'
 import { Form, Input, Select } from 'antd';
 const UserForm = forwardRef((props, ref) => {
     const { Option } = Select;
-    const {roleId, region,username} = JSON.parse(localStorage.getItem("token"))
+    const {roleId, region} = JSON.parse(localStorage.getItem("token"))
     const roleObj = {
         "1": "superadmin",
         "2": "admin",

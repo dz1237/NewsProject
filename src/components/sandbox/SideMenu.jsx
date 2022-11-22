@@ -11,7 +11,7 @@ export default function SideMenu() {
   const [menu, setMenu] = useState([])
   const { role: { rights } } = JSON.parse(localStorage.getItem("token"))
   useEffect(() => {
-    axios.get("http://localhost:8000/rights?_embed=children").then(res => {
+    axios.get("/rights?_embed=children").then(res => {
       setMenu(res.data);
     })
   }, [])
