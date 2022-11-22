@@ -2,6 +2,46 @@ import React, { forwardRef, useState, useEffect } from 'react'
 import { Form, Input, Select } from 'antd';
 const UserForm = forwardRef((props, ref) => {
     const { Option } = Select;
+    const {roleId, region,username} = JSON.parse(localStorage.getItem("token"))
+    const roleObj = {
+        "1": "superadmin",
+        "2": "admin",
+        "3": "editor",
+      }
+    const checkRegionDisabled = (item) => {
+        if (props.isUpdate) {
+            if (roleObj[roleId] === "superadmin") {
+                return false
+            }
+            else {
+                return true
+            }
+        } else {
+            if (roleObj[roleId] === "superadmin") {
+                return false
+            }
+            else {
+                return item.value!==region
+            }
+        }
+    }
+    const checkRoleDisabled =   (item) => {
+        if (props.isUpdate) {
+            if (roleObj[roleId] === "superadmin") {
+                return false
+            }
+            else {
+                return true
+            }
+        } else {
+            if (roleObj[roleId] === "superadmin") {
+                return false
+            }
+            else {
+                return  roleObj[item.id]!=="editor"
+            }
+        }
+    }
     const [isDisabled, setisDisabled] = useState(false);
     useEffect(() => {
         setisDisabled(props.isUpdateDisabled)
@@ -39,7 +79,7 @@ const UserForm = forwardRef((props, ref) => {
                 <Form.Item
                     name="region"
                     label="区域"
-                    rules={isDisabled?[]:[
+                    rules={isDisabled ? [] : [
                         {
                             required: true,
                             message: '请输入区域！',
@@ -49,7 +89,7 @@ const UserForm = forwardRef((props, ref) => {
                     <Select disabled={isDisabled}>
                         {
                             props.regionList.map(item =>
-                                <Option value={item.value} key={item.id}>{item.title}</Option>
+                                <Option value={item.value} disabled={checkRegionDisabled(item)} key={item.id}>{item.title}</Option>
                             )
                         }
                     </Select>
@@ -64,7 +104,7 @@ const UserForm = forwardRef((props, ref) => {
                         },
                     ]}
                 >
-                    <Select onChange={(value) => { 
+                    <Select onChange={(value) => {
                         if (value === 1) {
                             setisDisabled(true);
                             ref.current.setFieldsValue({ region: "" })
@@ -76,7 +116,7 @@ const UserForm = forwardRef((props, ref) => {
                     }}>
                         {
                             props.roleList.map(item =>
-                                <Option value={item.id} key={item.id}>{item.roleName}</Option>
+                                <Option disabled={checkRoleDisabled(item)} value={item.id} key={item.id}>{item.roleName}</Option>
                             )
                         }
                     </Select>

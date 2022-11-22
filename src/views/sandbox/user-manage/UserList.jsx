@@ -15,11 +15,20 @@ export default function UserList() {
   const updateFrom = useRef(null);
   const [isUpdateDisabled, setisUpdateDisabled] = useState(false);
   const [current, setcurrent] = useState(null);
+  const {roleId, region,username} = JSON.parse(localStorage.getItem("token"))
+  const roleObj = {
+    "1": "superadmin",
+    "2": "admin",
+    "3": "editor",
+  }
   useEffect(() => {
     axios.get("http://localhost:8000/users?_expand=role").then(res => {
       const list = res.data;
       console.log(list);
-      setdataSource(list);
+      setdataSource(roleObj[roleId] === "superadmin"?list:[
+        ...list.filter(item=>item.username===username),
+        ...list.filter(item=>item.region===region&& roleObj[item.roleId] === "editor"),
+      ] );
     })
   }, []);
   useEffect(() => {
@@ -233,6 +242,7 @@ export default function UserList() {
         roleList={ roleList }
         ref= { updateFrom }
         isUpdateDisabled={ isUpdateDisabled }
+        isUpdate={true}
        ></UserForm>
       </Modal>
     </div>

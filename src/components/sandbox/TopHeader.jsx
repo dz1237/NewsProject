@@ -9,7 +9,7 @@ import {
 export default function TopHeader() {
   const [collapsed, setCollapsed] = useState(false);
   const { Header } = Layout;
-  const {role:{roleName},username} = JSON.parse(localStorage.getItem("token"))
+  const {role:{roleName},username} = JSON.parse(localStorage.getItem("token"));
   const navigate = useNavigate();
   //更改图标
   const changeCollapsed = () => {
@@ -38,7 +38,6 @@ export default function TopHeader() {
         />
   );
   return (
-
       <Header
           className="site-layout-background" style={{ padding: "0 26px",}}
         >
@@ -50,7 +49,7 @@ export default function TopHeader() {
             collapsed ? <MenuUnfoldOutlined onClick={changeCollapsed}/> : <MenuFoldOutlined onClick={changeCollapsed}/>
           }
           <div style={{float:"right"}}>
-            <span>欢迎{username}</span>
+            <span>欢迎<span style={{ color : "#1890ff"}}>{username}</span></span>
             <Dropdown overlay={menu}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
@@ -60,6 +59,5 @@ export default function TopHeader() {
             </Dropdown>
           </div>
         </Header>
-
   )
 }
