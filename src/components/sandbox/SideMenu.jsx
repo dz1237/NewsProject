@@ -18,7 +18,7 @@ export default function SideMenu() {
   const { Sider } = Layout;
   //实现左侧导航栏跳转    router6版本useNavigate代替useHistory
   const handleClick = (e) => {
-    console.log(e);
+    // console.log(e);
     navigate(e.key)
   }
   const getItem = (label, key, icon, children, type) => {
