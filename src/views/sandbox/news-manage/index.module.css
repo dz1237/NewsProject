@@ -4,3 +4,6 @@
 .newsAddDiv{
     margin-top: 50px;
 }
+.active{
+    display: none;
+}
