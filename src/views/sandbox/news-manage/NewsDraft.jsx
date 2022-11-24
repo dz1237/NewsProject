@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Modal,} from 'antd';
+import { useNavigate } from 'react-router-dom'
+import { Table, Button, Modal, } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 export default function NewsDraft() {
+  const navigate = useNavigate()
   const [dataSource, setdataSource] = useState();
   const { confirm } = Modal;
   const { username } = JSON.parse(localStorage.getItem("token"))
@@ -19,7 +21,7 @@ export default function NewsDraft() {
     })
   }, [username]);
   //页面配置项的开关
- 
+
   const columns = [
     {
       title: 'ID',
@@ -31,7 +33,7 @@ export default function NewsDraft() {
     {
       title: '新闻标题',
       dataIndex: 'title',
-      render:(title,item) => {
+      render: (title, item) => {
         return <a href={`#/news-manage/preview/${item.id}`}>{title}</a>
       }
     },
@@ -42,7 +44,7 @@ export default function NewsDraft() {
     {
       title: '分类信息',
       dataIndex: 'category',
-      render:(category)=>{
+      render: (category) => {
         return category.title
       }
     },
@@ -50,18 +52,17 @@ export default function NewsDraft() {
       title: '操作',
       render: (item) => {
         return <div>
-          <Button type="danger" shape="circle" icon={<DeleteOutlined />} onClick={() => {
-            confirmMethod(item)
-          }} />
-         
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
-
+          <Button type="danger" shape="circle" icon={<DeleteOutlined />} onClick={() => { confirmMethod(item) }} />
+          <Button type="primary" shape="circle" icon={<EditOutlined />}  onClick={() => { updateNews(item) }}/>
           <Button type="primary" shape="circle" icon={<UploadOutlined />} />
         </div>
       }
     },
 
   ];
+  const updateNews = (item) => {
+    navigate(`/news-manage/update/${item.id}`)
+  }
   //删除权限列表中的权限提示信息框
   const confirmMethod = (item) => {
     confirm({
@@ -93,7 +94,7 @@ export default function NewsDraft() {
             pageSize: 5
           }
         }
-        rowKey={item=>item.id}
+        rowKey={item => item.id}
       />;
     </div>
   )
