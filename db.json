@@ -319,30 +319,6 @@
       "key": "/audit-manage/list",
       "pagepermisson": 1,
       "grade": 2
-    },
-    {
-      "id": 25,
-      "title": "待发布",
-      "rightId": 24,
-      "key": "/publish-manage/unpublished",
-      "pagepermisson": 1,
-      "grade": 2
-    },
-    {
-      "id": 26,
-      "title": "已发布",
-      "rightId": 24,
-      "key": "/publish-manage/published",
-      "pagepermisson": 1,
-      "grade": 2
-    },
-    {
-      "id": 27,
-      "title": "已下线",
-      "rightId": 24,
-      "key": "/publish-manage/sunset",
-      "pagepermisson": 1,
-      "grade": 2
     }
   ],
   "rights": [
@@ -378,13 +354,6 @@
       "id": 21,
       "title": "审核管理",
       "key": "/audit-manage",
-      "pagepermisson": 1,
-      "grade": 1
-    },
-    {
-      "id": 24,
-      "title": "发布管理",
-      "key": "/publish-manage",
       "pagepermisson": 1,
       "grade": 1
     }
@@ -546,21 +515,6 @@
       "id": 24
     },
     {
-      "title": "qw",
-      "categoryId": 2,
-      "content": "<p>qweqwasd</p>\n",
-      "region": "全世界",
-      "author": "admin",
-      "roleId": 1,
-      "auditState": 0,
-      "publishState": 0,
-      "createTime": 1669214782101,
-      "star": 0,
-      "view": 0,
-      "publishTime": 0,
-      "id": 25
-    },
-    {
       "title": "asdqweqdsa",
       "categoryId": 3,
       "content": "<p>qweqwe</p>\n",
@@ -634,6 +588,21 @@
       "view": 0,
       "publishTime": 0,
       "id": 30
+    },
+    {
+      "title": "第五次",
+      "categoryId": 3,
+      "content": "<p>asdqweqweqw</p>\n",
+      "region": "全世界",
+      "author": "admin",
+      "roleId": 1,
+      "auditState": 0,
+      "publishState": 0,
+      "createTime": 1669292341252,
+      "star": 0,
+      "view": 0,
+      "publishTime": 0,
+      "id": 31
     }
   ]
 }
