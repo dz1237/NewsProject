@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Layout, Menu } from 'antd'
-import { PieChartOutlined, UserOutlined } from '@ant-design/icons';
+import {  UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom'
 import style from './index.module.css';

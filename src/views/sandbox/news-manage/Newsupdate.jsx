@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { PageHeader, Steps, Button, Select, Form, Input, message, notification } from 'antd';
@@ -29,7 +28,7 @@ export default function Newsupdate(props) {
   const param = useParams();
   const [formInfo, setformInfo] = useState({});
   const [content, setcontent] = useState("");
-  const User = JSON.parse(localStorage.getItem("token"))
+  // const User = JSON.parse(localStorage.getItem("token"))
   const handleNext = () => {
     if (current === 0) {
       NewsForm.current.validateFields().then(res => {
@@ -81,18 +80,12 @@ export default function Newsupdate(props) {
   }
   //保存到草稿箱
   const handleSave = (auditState) => {
-    axios.post('/news', {
+    axios.patch(`/news/${param.id}`, {
       ...formInfo,
       "content": content,
-      "region": User.region?User.region:"全球",
-      "author": User.username,
-      "roleId": User.roleId,
+     
       "auditState": auditState,
-      "publishState": 0,
-      "createTime": Date.now(),
-      "star": 0,
-      "view": 0,
-      "publishTime": 0
+     
     }).then(res => {
       navigate(auditState === 0 ? '/news-manage/draft' : '/audit-manage/list');
       notification.info({

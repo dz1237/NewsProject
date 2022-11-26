@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import { Layout } from 'antd';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
