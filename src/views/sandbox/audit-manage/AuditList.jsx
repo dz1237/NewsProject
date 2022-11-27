@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Button, Tag } from 'antd'
+import { Table, Button, Tag, notification } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 export default function AuditList() {
+  const navigate = useNavigate()
   const { username } = JSON.parse(localStorage.getItem("token"));
   const [dataSource, setdataSource] = useState([]);
   useEffect(() => {
@@ -47,18 +49,53 @@ export default function AuditList() {
       render: (item) => {
         return <div>
           {
-            item.auditState === 1 && <Button type="ghost">撤销</Button>
+            item.auditState === 1 && <Button type="ghost" onClick={() => { handleRervert(item) }}>撤销</Button>
           }
           {
-            item.auditState === 2 && <Button type="danger">发布</Button>
+            item.auditState === 2 && <Button type="danger" onClick={() => { handlePublish(item) }}>发布</Button>
           }
           {
-            item.auditState === 3 && <Button type="primary">更新</Button>
+            item.auditState === 3 && <Button type="primary" onClick={() => { handleUpdate(item) }}>更新</Button>
           }
         </div>
       }
     },
   ];
+  //撤销     auditState状态改成0 --->  跳转到草稿箱中
+  const handleRervert = (item) => {
+    console.log(item);
+    setdataSource(dataSource.filter(data => data.id !== item.id));
+    axios.patch(`/news/${item.id}`, {
+      auditState: 0
+    }).then(res => {
+      notification.info({
+        message: `通知`,
+        description:
+          `您的新闻成功撤销到草稿箱`,
+        placement: "topRight"
+      });
+
+    })
+  }
+  //更新
+  const handleUpdate = (item) => {
+    navigate(`/news-manage/update/${item.id}`);
+  }
+  //发布
+  const handlePublish = (item) => {
+    axios.patch(`/news/${item.id}`, {
+      publishState: 2
+    }).then(res => {
+      notification.info({
+        message: `通知`,
+        description:
+          `您的新闻成功发布,可移至【发布管理/已发布】查看`,
+        placement: "topRight"
+      });
+      navigate(`/publish-manage/published`)
+
+    })
+  }
   return (
     <div>
       <Table dataSource={dataSource} columns={columns}
