@@ -10,7 +10,7 @@ export default function RoleList() {
   const [currentId, setcurrentId] = useState(0);
   const [isModalOpen, setisModalOpen] = useState(false);
   const { confirm } = Modal;
-  const colums = [
+  const columns = [
     {
       title: "id",
       dataIndex: "id",
@@ -95,7 +95,7 @@ export default function RoleList() {
   }
   return (
     <div>
-      <Table dataSource={dataSource} columns={colums} rowKey={(item) => { return item.id }}></Table>
+      <Table dataSource={dataSource} columns={columns} rowKey={(item) => { return item.id }}></Table>
       <Modal title="权限管理" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Tree
           checkable
