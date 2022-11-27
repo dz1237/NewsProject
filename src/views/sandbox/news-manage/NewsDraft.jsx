@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Table, Button, Modal, } from 'antd';
+import { Table, Button, Modal,notification } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 export default function NewsDraft() {
@@ -54,12 +53,25 @@ export default function NewsDraft() {
         return <div>
           <Button type="danger" shape="circle" icon={<DeleteOutlined />} onClick={() => { confirmMethod(item) }} />
           <Button type="primary" shape="circle" icon={<EditOutlined />}  onClick={() => { updateNews(item) }}/>
-          <Button type="primary" shape="circle" icon={<UploadOutlined />} />
+          <Button type="primary" shape="circle" icon={<UploadOutlined />} onClick={() => { handleCheck(item.id) }}/>
         </div>
       }
     },
 
   ];
+  const handleCheck = (id) => {
+    axios.patch(`news/${id}`,{
+      auditState:1
+    }).then(res => {
+      navigate('/audit-manage/list');
+      notification.info({
+        message: `通知`,
+        description:
+          `您的新闻成功保存到${"审核列表"}`,
+        placement:"topRight"
+      });
+    })
+  }
   const updateNews = (item) => {
     navigate(`/news-manage/update/${item.id}`)
   }
