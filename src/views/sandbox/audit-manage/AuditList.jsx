@@ -84,7 +84,9 @@ export default function AuditList() {
   //发布
   const handlePublish = (item) => {
     axios.patch(`/news/${item.id}`, {
-      publishState: 2
+      publishState: 2,
+      publishTime:Date.now()
+      
     }).then(res => {
       notification.info({
         message: `通知`,

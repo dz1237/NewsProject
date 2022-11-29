@@ -575,11 +575,12 @@
       "author": "admin",
       "roleId": 1,
       "auditState": 2,
-      "publishState": 1,
+      "publishState": 3,
       "createTime": 1655963930155,
       "star": 0,
       "view": 0,
-      "id": 11
+      "id": 11,
+      "publishTime": 1669639454081
     },
     {
       "title": "123",
@@ -589,7 +590,7 @@
       "author": "admin",
       "roleId": 1,
       "auditState": 2,
-      "publishState": 2,
+      "publishState": 3,
       "createTime": 1655965288067,
       "star": 0,
       "view": 0,
@@ -744,11 +745,11 @@
       "author": "admin",
       "roleId": 1,
       "auditState": 2,
-      "publishState": 1,
+      "publishState": 3,
       "createTime": 1669434166464,
       "star": 0,
       "view": 0,
-      "publishTime": 0,
+      "publishTime": 1669639474102,
       "id": 24
     },
     {
