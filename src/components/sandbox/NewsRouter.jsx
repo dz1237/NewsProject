@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Spin } from 'antd'
 import axios from 'axios';
 import Home from '../../views/sandbox/home/Home';
 import UserList from '../../views/sandbox/user-manage/UserList';
@@ -27,7 +29,7 @@ const LocalRouterMap = {
   "/news-manage/category": <NewsCategory />,
   "/news-manage/preview/:id": <NewsPreview />,
   "/news-manage/update/:id": <Newsupdate />,
-  
+
   "/audit-manage/audit": <Audit />,
   "/audit-manage/list": <AuditList />,
   "/publish-manage/unpublished": <UnPublished />,
@@ -35,7 +37,7 @@ const LocalRouterMap = {
   "/publish-manage/sunset": <Sunset />
 
 }
-export default function NewsRouter() {
+const  NewsRouter = (props) => {
   const [backRouteList, setbackRouteList] = useState([])
   useEffect(() => {
     Promise.all([
@@ -46,32 +48,38 @@ export default function NewsRouter() {
       // console.log([...res[0].data, ...res[1].data]);
     })
   }, [])
-  const {role:{rights}}=JSON.parse(localStorage.getItem("token"))
-  const checkRoute =  (item) => {
-    return LocalRouterMap[item.key] && (item.pagepermisson  || item.routepermisson)
+  const { role: { rights } } = JSON.parse(localStorage.getItem("token"))
+  const checkRoute = (item) => {
+    return LocalRouterMap[item.key] && (item.pagepermisson || item.routepermisson)
   }
   const checkUserPermission = (item) => {
     return rights.includes(item.key)
   }
   return (
     <div>
-      <Routes>
-        {
-          backRouteList.map(item => {
-            if (checkRoute(item) && checkUserPermission(item)) {
-              return <Route path={item.key} key={item.key} element={LocalRouterMap[item.key]} exact />
-            } 
-            return null;
+      <Spin spinning={props.isLoading}>
+        <Routes>
+          {
+            backRouteList.map(item => {
+              if (checkRoute(item) && checkUserPermission(item)) {
+                return <Route path={item.key} key={item.key} element={LocalRouterMap[item.key]} exact />
+              }
+              return null;
+            }
+
+
+            )
           }
-
-
-          )
-        }
-        <Route path='/' element={<Navigate to="/home" />} exact />
-        {
-          backRouteList.length > 0 && <Route path="*" element={<NoPermission />} />
-        }
-      </Routes>
+          <Route path='/' element={<Navigate to="/home" />} exact />
+          {
+            backRouteList.length > 0 && <Route path="*" element={<NoPermission />} />
+          }
+        </Routes>
+      </Spin>
     </div>
   )
 }
+const mapStateToProps = ({LoadingReducer:{isLoading}}) =>({
+  isLoading
+})
+export default connect(mapStateToProps)(NewsRouter)
