@@ -4,7 +4,8 @@ import {  UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom'
 import style from './index.module.css';
-export default function SideMenu() {
+import {connect} from 'react-redux'
+const SideMenu=(props)=> {
   const navigate = useNavigate();
   const location = useLocation();//左侧边栏默认高亮的
   const openKeys = ["/" + location.pathname.split("/")[1]];//左侧边栏默认展开的
@@ -87,7 +88,7 @@ export default function SideMenu() {
     return items
   }
   return (
-    <Sider trigger={null} collapsible collapsed={false}>
+    <Sider trigger={null} collapsible collapsed={props.isCollapsed}>
       <div className={style.left}>
         <div className={style.logo}>我的发布</div>
         <div className={style.leftMenu}>
@@ -104,3 +105,7 @@ export default function SideMenu() {
     </Sider>
   )
 }
+const mapStateToProps = ({CollApsedReducer:{isCollapsed}}) =>({
+  isCollapsed
+})
+export default   connect(mapStateToProps)(SideMenu)
