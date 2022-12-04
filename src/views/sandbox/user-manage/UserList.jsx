@@ -34,14 +34,14 @@ export default function UserList() {
   useEffect(() => {
     axios.get("/regions").then(res => {
       const list = res.data;
-      // console.log(list);
+
       setregionList(list);
     })
   }, []);
   useEffect(() => {
     axios.get("/roles").then(res => {
       const list = res.data;
-      // console.log(list);
+
       setroleList(list);
     })
   }, []);
@@ -130,7 +130,7 @@ export default function UserList() {
       else{
         setisUpdateDisabled(false)
       }
-      // console.log( updateFrom);
+
       updateFrom.current.setFieldsValue(item);
       setcurrent(item)
     // },0)
@@ -177,7 +177,7 @@ export default function UserList() {
         "roleState":true, 
         "default":false
       }).then(res=>{
-        // console.log(res.data);
+
         setdataSource([...dataSource,{...res.data,role:roleList.filter(item=>item.id===value.roleId)[0]}])
       })
     }).catch(err=>{

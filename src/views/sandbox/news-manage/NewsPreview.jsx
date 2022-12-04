@@ -9,7 +9,7 @@ export default function NewsPreview() {
   useEffect(() => {
     axios.get(`/news/${param.id}?_expand=category&_expand=role`).then(res => {
       setnewsInfo(res.data);
-      console.log(res.data);
+
     })
   }, [param.id])
   const auditList = ["未审核","审核中","已通过","未通过"];

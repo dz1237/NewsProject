@@ -20,7 +20,6 @@ export default function NewsEditor(props) {
         }
     },[props.content])
     const editorBlur = (editorState) => {
-        // console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
         props.getContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
     }
     

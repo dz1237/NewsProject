@@ -46,7 +46,7 @@ export default function RoleList() {
         deletedMethod(item)``
       },
       onCancel() {
-        // console.log('Cancel');
+
       },
     });
   }

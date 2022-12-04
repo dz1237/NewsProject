@@ -45,7 +45,7 @@ const  NewsRouter = (props) => {
       axios.get("http://localhost:8000/children")
     ]).then((res) => {
       setbackRouteList([...res[0].data, ...res[1].data])
-      // console.log([...res[0].data, ...res[1].data]);
+
     })
   }, [])
   const { role: { rights } } = JSON.parse(localStorage.getItem("token"))

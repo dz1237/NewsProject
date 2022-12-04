@@ -8,7 +8,7 @@ export default function AuditList() {
   const [dataSource, setdataSource] = useState([]);
   useEffect(() => {
     axios(`news?author=${username}&auditState_ne=0&publishState_lte=1&_expand=category`).then(res => {
-      // console.log(res.data);
+
       setdataSource(res.data)
     })
   }, [username])
@@ -63,7 +63,7 @@ export default function AuditList() {
   ];
   //撤销     auditState状态改成0 --->  跳转到草稿箱中
   const handleRervert = (item) => {
-    console.log(item);
+
     setdataSource(dataSource.filter(data => data.id !== item.id));
     axios.patch(`/news/${item.id}`, {
       auditState: 0

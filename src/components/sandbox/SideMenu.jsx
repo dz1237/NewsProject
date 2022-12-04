@@ -19,7 +19,7 @@ const SideMenu=(props)=> {
   const { Sider } = Layout;
   //实现左侧导航栏跳转    router6版本useNavigate代替useHistory
   const handleClick = (e) => {
-    // console.log(e);
+
     navigate(e.key)
   }
   const getItem = (label, key, icon, children, type) => {
@@ -32,13 +32,12 @@ const SideMenu=(props)=> {
     };
   }
   const checkPagePermission = (item) => {
-    // console.log(item);
+
     return item.pagepermisson &&  rights.includes(item.key)
   }
 
   // const renderMenu = (menuList) => {
-  //   console.log(rights);
-  //   console.log(menuList);
+
   //   const items = [];
   //   const child =[];
   //   menuList.map((item) => {

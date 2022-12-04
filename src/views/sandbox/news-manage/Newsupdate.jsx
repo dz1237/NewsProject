@@ -35,7 +35,7 @@ export default function Newsupdate(props) {
         setformInfo(res)
         setcurrent(current + 1)
       }).catch(err => {
-        console.log(err);
+
       })
     }
     else {
@@ -76,7 +76,7 @@ export default function Newsupdate(props) {
   //子组件数据传给父组件的回调函数
   const getContent = (value) => {
     setcontent(value)
-    // console.log(value);
+
   }
   //保存到草稿箱
   const handleSave = (auditState) => {

@@ -41,7 +41,7 @@ export default function NewsCategory() {
     },
   ];
   const handleSave = (record) => {
-    console.log(record);
+
     setdataSource(dataSource.map(item =>{
       if(item.id===record.id){
         return {
@@ -99,7 +99,7 @@ export default function NewsCategory() {
           ...values,
         });
       } catch (errInfo) {
-        console.log('Save failed:', errInfo);
+
       }
     };
     let childNode = children;

@@ -13,9 +13,9 @@ export default function Audit() {
   }
   useEffect(() => {
     axios.get(`/news?auditState=1&_expand=category`).then(res => {
-      // console.log(res.data);
+
       const list = res.data;
-      console.log(list);
+
       setdataSource(roleObj[roleId] === "superadmin" ? list : [
         ...list.filter(item => item.author === username),
         ...list.filter(item => item.region === region && roleObj[item.roleId] === "editor"),

@@ -10,9 +10,9 @@ export default function NewsDraft() {
   const { username } = JSON.parse(localStorage.getItem("token"))
   useEffect(() => {
     axios.get(`/news?author=${username}&auditState=0&_expand=category`).then(res => {
-      console.log(res);
+
       const list = res.data;
-      console.log(list);
+
       // list.map((item) =>
       //   // item.children.length === 0 ? item.children = "" : item
       // )
@@ -84,13 +84,13 @@ export default function NewsDraft() {
         deletedMethod(item)
       },
       onCancel() {
-        // console.log('Cancel');
+
       },
     });
   }
   //删除列表权限的方法   当前页面同步删除 +后端也删除===删除成功
   const deletedMethod = (item) => {
-    // console.log(111);
+
     // setdataSource(dataSource.filter(data => data.id !== item.id));
     // axios.delete(`http://localhost:8000/rights/${item.id}`);   
     //删除一级
